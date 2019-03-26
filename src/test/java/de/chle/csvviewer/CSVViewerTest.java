@@ -59,4 +59,17 @@ class CSVViewerTest {
 		
 		assertArrayEquals(new int[] {3,4,5}, colWidths);
 	}
+	
+	@Test
+	void testRecordID()
+	{
+		List<String> lines = new ArrayList<>();
+		lines.add("a;b;c");
+		lines.add("1;2;3");
+		
+		List<Record> records = CSVParser.parseLines(lines);
+
+		assertEquals(0, records.get(0).getId());
+		assertEquals(1, records.get(1).getId());
+	}
 }

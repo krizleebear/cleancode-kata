@@ -26,7 +26,9 @@ public class CSVViewerMain {
 		Paging paging = new Paging(records, pageSize);
 		Page firstPage = paging.firstPage();
 		
-		System.out.println(firstPage);
+		UI ui = new UI(firstPage);
+		
+		System.out.println(ui);
 	}
 
 	

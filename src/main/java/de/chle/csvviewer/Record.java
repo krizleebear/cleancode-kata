@@ -9,29 +9,35 @@ public class Record {
 	public final String[] columns;
 
 	private final int[] widths;
-	
-	public Record(String line)
-	{
-		columns = SPLITTER.split(line);
-		
+
+	private final int id;
+
+	public Record(String line, int recordID) {
+		this.id = recordID;
+
+		this.columns = SPLITTER.split(line);
+
 		this.widths = calculateColWidths();
 	}
-	
-	public static Record lineToRecord(String line)
-	{
-		return new Record(line);
+
+	public static Record lineToRecord(String line) {
+		return new Record(line, 0);
 	}
-	
+
+	public static Record lineToRecord(String line, int recordNumber) {
+		return new Record(line, recordNumber);
+	}
+
 	protected int[] calculateColWidths() {
-		
+
 		int[] widths = new int[getColumnCount()];
-		
+
 		int i = 0;
 		for (String col : columns) {
 			widths[i] = Math.max(widths[i], col.length());
 			i++;
 		}
-		
+
 		return widths;
 	}
 
@@ -39,8 +45,11 @@ public class Record {
 		return columns.length;
 	}
 
-	public int[] getColumnWidths()
-	{
+	public int[] getColumnWidths() {
 		return widths;
+	}
+
+	public int getId() {
+		return id;
 	}
 }

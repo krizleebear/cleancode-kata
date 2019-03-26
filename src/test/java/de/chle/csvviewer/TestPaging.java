@@ -38,12 +38,28 @@ class TestPaging {
 	}
 	
 	@Test
+	void testGetPageCount()
+	{
+		Paging paging = new Paging(records, 200);
+		assertEquals(200, paging.getRecordCount());
+		assertEquals(1, paging.getPageCount());
+		
+		paging = new Paging(records, 100);
+		assertEquals(2, paging.getPageCount());
+		
+		paging = new Paging(records, 5);
+		assertEquals(40, paging.getPageCount());
+	}
+	
+	@Test
 	void testPageFormatting()
 	{
 		Paging paging = new Paging(records, 3);
 		Page firstPage = paging.firstPage();
 		
-		String formatted = firstPage.toString();
+		UI ui = new UI(firstPage);
+		
+		String formatted = ui.toString();
 		assertNotNull(formatted);
 		assertFalse(formatted.isEmpty());
 		assertTrue(formatted.startsWith("Name"));

@@ -5,14 +5,14 @@ import java.util.List;
 public class Paging {
 
 	private final Record header;
-	private final List<Record> rows;
-	private final int windowSize;
+	private final List<Record> records;
+	private final int pageSize;
 	private int currentPage = 0;
 
 	public Paging(List<Record> allRecords, int pageSize) {
-		this.windowSize = pageSize;
+		this.pageSize = pageSize;
 		this.header = allRecords.remove(0);
-		this.rows = allRecords;
+		this.records = allRecords;
 	}
 
 	public Page firstPage() {
@@ -29,9 +29,23 @@ public class Paging {
 	}
 
 	public List<Record> rowsForPage(int pageIndex) {
-		int fromIndex = pageIndex * windowSize;
-		int toIndex = fromIndex + windowSize;
-		return rows.subList(fromIndex, toIndex);
+		int fromIndex = pageIndex * getPageSize();
+		int toIndex = fromIndex + getPageSize();
+		return records.subList(fromIndex, toIndex);
+	}
+	
+	public int getPageCount()
+	{
+		final double pages = (double) records.size() / getPageSize();
+		return (int) Math.ceil(pages);
+	}
+
+	public int getRecordCount() {
+		return records.size();
+	}
+
+	public int getPageSize() {
+		return pageSize;
 	}
 
 }

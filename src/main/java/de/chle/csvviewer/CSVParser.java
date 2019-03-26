@@ -3,24 +3,31 @@ package de.chle.csvviewer;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class CSVParser {
 
-	public static List<Record> parse(Path csvFile) throws IOException
-	{
+	public static List<Record> parse(Path csvFile) throws IOException {
 		List<String> lines = Files.readAllLines(csvFile);
 		return parseLines(lines);
 	}
 
 	public static List<Record> parseLines(List<String> lines) {
-		
-		Stream<Record> records = lines.stream().map(Record::lineToRecord);
-		
-		return records.collect(Collectors.toList());
+
+		List<Record> records = new ArrayList<>(lines.size());
+
+		int id = 0;
+		for (String line : lines) {
+			if (line.trim().isEmpty()) {
+				continue;
+			}
+
+			records.add(Record.lineToRecord(line, id));
+			id++;
+		}
+
+		return records;
 	}
-	
-	
+
 }
