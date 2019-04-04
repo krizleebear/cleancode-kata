@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -52,6 +53,9 @@ class LOCTest {
 		
 		assertEquals(100, summary.summary.linesOfCode);
 		assertEquals(200, summary.summary.totalLines);
+		
+		String toString = summary.toString();
+		assertTrue(toString.contains("200"));
 	}
 	
 	@Test
@@ -77,5 +81,32 @@ class LOCTest {
 		assertTrue(files.get(0).getFileName().toString().endsWith(".java"));
 	}
 	
+	@Test
+	void analyzeLines()
+	{
+		SourceFileInfo info = new SourceFileInfo(Paths.get("test.java"));
+		
+		List<String> lines = new ArrayList<>();
+		lines.add("");
+		lines.add("main(String[] args");
+		
+		LOC.analyzeLines(lines, info);
+	}
 	
+	@Test
+	void sourceFileInfoToString()
+	{
+		SourceFileInfo info = new SourceFileInfo(Paths.get("test.java"));
+		String string = info.toString();
+		assertNotNull(string);
+		assertTrue(string.contains("test.java"));
+	}
+	
+	@Test
+	void testReadFile()
+	{
+		Path file = Paths.get("./src/test/java/de/chle/loccounter/LOCTest.java");
+		List<String> lines = SourceFileProvider.readFile(file);
+		assertTrue(lines.size() > 0);
+	}
 }

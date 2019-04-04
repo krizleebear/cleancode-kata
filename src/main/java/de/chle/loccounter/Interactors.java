@@ -7,6 +7,8 @@ import java.util.stream.Stream;
 
 public class Interactors {
 
+	//TODO: hier müssen noch die Callbacks an die UI übergeben werden!
+	// nicht die UI in start() anlegen
 	public static void start(String[] args) throws IOException {
 
 		Path sourceDir = CommandLine.getPath(args);
